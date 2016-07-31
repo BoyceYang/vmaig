@@ -53,7 +53,7 @@
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
+                {% if not user.is_authenticated %}
                     <li>
                         <a  id="nav-login" data-toggle="modal" data-target="#login-modal"  style="padding-right:0px;cursor:pointer;">
                         登陆
@@ -200,7 +200,7 @@
     $('#login-form').submit(function () {
         $.ajax({
             type: "POST",
-            url: "",
+            url: "/user/login",
             data:{"username":$("#login-username").val(),"password":$("#login-password").val()},
             beforeSend:function(xhr){
                 xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
@@ -232,7 +232,7 @@
     $("#register-form").submit(function () {
         $.ajax({
             type: "POST",
-            url: "",
+            url: "/user/register",
             data:{"username":$("#register-username").val(),"email":$("#register-email").val(),
                   "password1":$("#register-password-1").val(),"password2":$("#register-password-2").val()},
             dataType:'json',
@@ -266,7 +266,7 @@
     $("#logout").click(function () {
         $.ajax({
             type: "POST",
-            url: "",
+            url: "/user/logout",
             beforeSend:function(xhr){
                 xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
             },

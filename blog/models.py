@@ -3,10 +3,9 @@
 
 from __future__ import unicode_literals
 
-from utils import StringOfTitle
-
 from django.db import models
-from django.conf import settings
+
+from utils import StringOfTitle
 
 # Create your models here.
 STATUS = {
