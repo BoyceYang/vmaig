@@ -1,3 +1,6 @@
+# !/usr/bin/python
+# -*-coding:utf-8-*-
+
 """
 Django settings for vmaig project.
 
@@ -123,3 +126,89 @@ STATIC_URL = '/static/'
 
 # user model
 # AUTH_USER_MODEL = "vmaig_auth.VmaigUser"
+
+# 网站标题等内容配置
+WEBSITE_TITLE = u'Vmaig'
+WEBSITE_WELCOME = u'欢迎来到Vmaig'
+
+# LOG配置
+LOG_FILE = u'./all.log'
+
+LOGGING = {
+    u'version': 1,
+    u'disable_existing_loggers': True,
+    u'filters': {
+        u'require_debug_false': {
+            u'()': u'django.utils.log.RequireDebugFalse',
+        }
+    },
+    u'formatters': {
+        u'simple': {
+            u'format': u'[%(levelname)s] %(module)s : %(message)s',
+        },
+        u'verbose': {
+            u'format': u'[%(asctime)s] [%(levelname)s] %(module)s : %(message)s',
+        },
+    },
+    u'handlers': {
+        u'null': {
+            u'level': u'DEBUG',
+            u'class': u'logging.NullHandler',
+        },
+        u'console': {
+            u'level': u'INFO',
+            u'class': u'logging.StreamHandler',
+            u'formatter': u'verbose',
+        },
+        u'file': {
+            u'level': u'INFO',
+            u'class': u'logging.FileHandler',
+            u'formatter': u'verbose',
+            u'filename': LOG_FILE,
+            u'mode': u'a',
+        },
+        u'mail_admins': {
+            u'level': u'ERROR',
+            u'class': u'django.utils.log.AdminEmailHandler',
+            u'filters': [u'require_debug_false']
+        },
+    },
+    u'loggers': {
+        u'': {
+            u'handlers': [u'file', u'console'],
+            u'level': u'INFO',
+            u'propagate': True,
+        },
+        u'django': {
+            u'handlers': [u'file', u'console'],
+            u'level': u'DEBUG',
+            u'propagate': True,
+        },
+        u'django.request': {
+            u'handlers': [u'mail_admins', u'console'],
+            u'level': u'ERROR',
+            u'propagate': True,
+        },
+    },
+}
+
+# Cache配置
+CACHES = {
+    u'default': {
+        u'BACKEND': u'django.core.cache.backends.locmem.LocMemCache',
+        u'LOCATION': u'unique-snowflake',
+        u'options': {
+            u'MAX_ENTRIES': 1024,
+        },
+    },
+    u'memcache': {
+        u'BACKEND': u'django.core.cache.backends.memcached.MemcachedCache',
+        u'LOCATION': u'127.0.0.1:11211',
+        u'options': {
+            u'MAX_ENTRIES': 1024,
+        },
+    },
+}
+
+# 分页配置
+PAGE_NUM = 5

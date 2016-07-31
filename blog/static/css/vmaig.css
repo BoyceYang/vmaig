@@ -1,0 +1,71 @@
+html, body{ overflow-x: hidden; overflow-y: auto;}
+
+body {
+    font-family:"Microsoft YaHei","WenQuanYi Micro Hei","tohoma,sans-serif";
+    color:#6B6B6B;
+    font-size:12px;
+    background:url('../img/bg.jpg') repeat scroll 0 0 transparent;
+}
+
+header {
+    font-size:14px;
+}
+
+/*使footer置于底部*/
+body,html {
+    margin: 0;
+    padding: 0;
+    height:100%;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    height: 30px;
+    width: 100%;
+    background:#ccc;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family:"Microsoft YaHei","WenQuanYi Micro Hei","tohoma,sans-serif";
+    font-weight: 700;
+}
+
+a {
+    color:#4C4C4C;
+}
+
+a:focus{
+    color:#D9534F;
+    text-decoration:none;
+}
+
+a:hover{
+    color:#D9534F;
+    text-decoration:none;
+}
+
+/*nav css*/
+.navbar-vmaig .navbar-brand{
+    font-weight:bold;
+    font-size:25px;
+    margin-right:10px;
+    color:#000;
+    text-shadow: 1px 2px 5px rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.125);
+}
+
+/*nav中 login弹出窗口中的样式*/
+#login-button {
+    float:right;
+}
+
+#forgetpassword {
+    float:right;
+}
+
+#forgetpassword a {
+    color:red;
+    font-size:14px;
+    line-height:30px;
+}
+
