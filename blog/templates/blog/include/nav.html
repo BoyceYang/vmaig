@@ -3,7 +3,7 @@
 {% url 'index-view' as index_url %}
 {% url 'all-view' as all_url %}
 {% url 'news-view' as news_url %}
-{% url 'forgetpassword-view' as forgetpassword_url %}
+{% url 'forget_password-view' as forgetpassword_url %}
 {% url 'user-view' 'changetx' as changetx_url%}
 {% url 'user-view' 'changepassword' as changepassword_url%}
 {% url 'user-view' 'notification' as notification_url%}
@@ -79,6 +79,10 @@
                             <li><a href="{{changepassword_url}}">
                                 <span class="glyphicon glyphicon-lock"></span>
                                 更改密码
+                            </a></li>
+                            <li><a href="{{forgetpassword_url}}">
+                                <span class="glyphicon glyphicon-leaf"></span>
+                                忘记密码
                             </a></li>
                             <li><a href="{{notification_url}}">
                                 <span class="glyphicon glyphicon-envelope"></span>

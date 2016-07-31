@@ -25,9 +25,16 @@
     {% include "./blog/include/nav.html"%}
     <!-- 文章列表 与 侧边的东西 -->
     <div id="vmaig-main">
-
+        <div id="vmaig-content" class="container">
+            {%block main%} {% endblock %}
+        </div>
+        <footer>
+           <div class="container">
+               <p class="text-center">基于Dajngo1.8,Bootsratp3, <a href="#">网站地图</a></p>
+           </div>
+        </footer>
     </div>
 </body>
-    <script type="text/javascript" src=""></script>
+    <script type="text/javascript" src="/static/js/vmaig.js"></script>
     {% block js%}{% endblock%}
 </html>
