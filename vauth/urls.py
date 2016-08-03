@@ -2,9 +2,9 @@
 # -*-coding:utf-8-*-
 
 from django.conf.urls import url
-from .views import UserControl
+from .views import VauthControl
 
 
 urlpatterns = [
-    url(r'^user/(?P<slug>\w+)$', UserControl.as_view()),
+    url(r'^vauth/(?P<slug>\w+)$', VauthControl.as_view()),
 ]

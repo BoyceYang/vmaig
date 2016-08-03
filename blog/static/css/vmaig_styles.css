@@ -1,0 +1,96 @@
+html, body{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+body {
+    font-family:"Microsoft YaHei","WenQuanYi Micro Hei","tohoma,sans-serif";
+    color:#6B6B6B;
+    font-size:12px;
+    background:url('../img/bg.jpg') repeat scroll 0 0 transparent;
+}
+
+header {
+    font-size:14px;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height:100%;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    height: 30px;
+    width: 100%;
+    padding: 40px 0;
+    color: #fff;
+    text-align: center;
+    background-color: #222;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family:"Microsoft YaHei","WenQuanYi Micro Hei","tohoma,sans-serif";
+    font-weight: 700;
+}
+
+a {
+    color:#4C4C4C;
+}
+
+a:focus{
+    color:#D9534F;
+    text-decoration:none;
+}
+
+a:hover{
+    color:#D9534F;
+    text-decoration:none;
+}
+
+
+/* _nav */
+.vmaig-navbar .navbar-brand{
+    font-weight: bold;
+    font-size: 25px;
+    margin-right: 10px;
+    color: #000;
+    text-shadow: 1px 2px 5px rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.125);
+}
+
+/* _login */
+#login-button {
+    float:right;
+}
+
+#forget_password {
+    float:right;
+}
+
+#forget_password a {
+    color:red;
+    font-size:14px;
+    line-height:30px;
+}
+
+#vmaig{
+    padding-top:50px;
+}
+
+#vmaig-main {
+    position: relative;
+    min-height:100%;
+    _height:100%; /* for ie6 因为ie6不支持min-height */
+}
+
+#vmaig-content {
+    padding: 10px;
+    padding-bottom: 30px;  /* 不至被footer盖住 */
+}
+
+#vmaig-main{
+    padding:30px 0px;
+}
+

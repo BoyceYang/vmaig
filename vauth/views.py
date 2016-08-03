@@ -7,47 +7,37 @@ import logging
 from django.contrib import auth
 from django.views.generic import View
 from django.core.mail import send_mail
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.contrib.sites.shortcuts import get_current_site
-from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.forms import PasswordChangeForm
 
-from .forms import VmaigUserCreationForm, VmaigPasswordRestForm
+from .forms import VmaigUserCreationForm
 
 LOG = logging.getLogger(__name__)
 
 # Create your views here.
 
 
-class UserControl(View):
+class VauthControl(View):
     def post(self, request, *args, **kwargs):
-        # 获取要对用户进行什么操作
+
         slug = self.kwargs.get('slug')
         if slug == 'login':
-            return self._login(request)
+            return self._login()
         elif slug == 'logout':
-            return self._logout(request)
+            return self._logout()
         elif slug == 'register':
-            return self._register(request)
-        elif slug == "changepassword":
-            return self._change_password(request)
-        elif slug == "forgetpassword":
-            return self._forget_password(request)
+            return self._register()
 
-    def get(self, request, *args, **kwargs):
-        # 如果是get请求直接返回404页面
-        raise Http404
-
-    def _login(self, request):
-        username = request.POST.get("username", "")
-        password = request.POST.get("password", "")
+    def _login(self):
+        username = self.request.POST.get("username", "")
+        password = self.request.POST.get("password", "")
         user = auth.authenticate(username=username, password=password)
 
         errors = []
 
         if user is not None:
-            auth.login(request, user)
+            auth.login(self.request, user)
         else:
             errors.append(u"密码或者用户名不正确")
 
@@ -57,25 +47,25 @@ class UserControl(View):
             content_type="application/json"
         )
 
-    def _logout(self, request):
-        if not request.user.is_authenticated():
+    def _logout(self):
+        if not self.request.user.is_authenticated():
             LOG.error(u'[UserControl]用户未登陆')
             raise PermissionDenied
         else:
-            auth.logout(request)
+            auth.logout(self.request)
             return HttpResponse('OK')
 
-    def _register(self, request):
+    def _register(self):
         username = self.request.POST.get("username", "")
         password1 = self.request.POST.get("password1", "")
         password2 = self.request.POST.get("password2", "")
         email = self.request.POST.get("email", "")
 
-        form = VmaigUserCreationForm(request.POST)
+        form = VmaigUserCreationForm(self.request.POST)
 
         errors = []
         # 验证表单是否正确
-        if form.is_valid():
+        if form.is_valid() and password1 == password2:
             current_site = get_current_site(self.request)
             site_name = current_site.name
             domain = current_site.domain
@@ -98,64 +88,9 @@ class UserControl(View):
                 )
                 return HttpResponse(u"发送邮件错误!\n注册失败", status=500)
 
-            new_user = form.save()
+            form.save()
             user = auth.authenticate(username=username, password=password1)
-            auth.login(request, user)
-
-        else:
-            # 如果表单不正确,保存错误到errors列表中
-            for k, v in form.errors.items():
-                # v.as_text() 详见django.forms.util.ErrorList 中
-                errors.append(v.as_text())
-
-        my_dict = {"errors": errors}
-        return HttpResponse(
-            json.dumps(my_dict),
-            content_type="application/json"
-        )
-
-    def _change_password(self, request):
-        if not request.user.is_authenticated():
-            LOG.error(u'[UserControl]用户未登陆')
-            raise PermissionDenied
-
-        form = PasswordChangeForm(request.user, request.POST)
-
-        errors = []
-        # 验证表单是否正确
-        if form.is_valid():
-            user = form.save()
-            auth.logout(request)
-        else:
-            # 如果表单不正确,保存错误到errors列表中
-            for k, v in form.errors.items():
-                # v.as_text() 详见django.forms.util.ErrorList 中
-                errors.append(v.as_text())
-
-        my_dict = {"errors": errors}
-        return HttpResponse(
-            json.dumps(my_dict),
-            content_type="application/json"
-        )
-
-    def _forget_password(self, request):
-        username = self.request.POST.get("username", "")
-        email = self.request.POST.get("email", "")
-
-        form = VmaigPasswordRestForm(request.POST)
-
-        errors = []
-
-        # 验证表单是否正确
-        if form.is_valid():
-            token_generator = default_token_generator
-            from_email = None
-            opts = {
-                'token_generator': token_generator,
-                'from_email': from_email,
-                'request': request,
-            }
-            user = form.save(**opts)
+            auth.login(self.request, user)
 
         else:
             # 如果表单不正确,保存错误到errors列表中

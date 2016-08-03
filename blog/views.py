@@ -4,9 +4,8 @@
 import logging
 
 from django.conf import settings
-from django.shortcuts import render
 from django.core.cache import caches
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView
 
 from .models import Article, Nav, Carousel
 
@@ -66,33 +65,3 @@ class IndexView(BaseMixin, ListView):
         article_list = Article.objects.filter(status=0)
         return article_list
 
-
-class UserView(BaseMixin, TemplateView):
-    template_name = ''
-
-    def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated():
-            LOG.error(u'[UserView]用户未登陆')
-            return render(request, 'blog/login.html')
-
-        slug = self.kwargs.get('slug')
-        if slug == "changepassword":
-            self.template_name = 'blog/user_change_password.html'
-        elif slug == 'notification':
-            self.template_name = 'blog/user_notification.html'
-
-        return super(UserView, self).get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(UserView, self).get_context_data(**kwargs)
-
-        slug = self.kwargs.get('slug')
-
-        if slug == 'notification':
-            """
-            context['notifications'] = \
-                self.request.user.to_user_notification_set.order_by(
-                    '-create_time'
-                ).all()
-            """
-        return context
