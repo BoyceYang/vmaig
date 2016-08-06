@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.conf import settings
 
 from utils import StringOfTitle
 
@@ -62,7 +63,7 @@ class Category(models.Model):
 
 
 class Article(models.Model):
-    # author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'作者')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'作者')
     category = models.ForeignKey(Category, verbose_name=u'分类')
     title = models.CharField(max_length=100, verbose_name=u'标题')
     en_title = models.CharField(max_length=100, verbose_name=u'英文标题')
