@@ -11,7 +11,7 @@
         <ul id="hotest-post-list" class="list-group collapse in">
             {% for article in hot_article_list %}
                 <li class="list-group-item">
-                <span class="hotest-post-title"><a href="#">{{article.title}}</a> </span>
+                <span class="hotest-post-title"><a href="{% url 'article-detail-view' article.en_title %}">{{article.title}}</a> </span>
                 <span class="badge">{{article.view_times}}</span>
                 </li>
             {% endfor %}

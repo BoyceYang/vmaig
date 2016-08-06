@@ -67,6 +67,12 @@ class IndexView(BaseMixin, ListView):
 
 
 class ArticleView(BaseMixin, DetailView):
+
+    queryset = Article.objects.filter()
+    template_name = 'blog/article.html'
+    context_object_name = 'article'
+    slug_field = 'en_title'
+
     def get(self, request, *args, **kwargs):
         return super(ArticleView, self).get(request, *args, **kwargs)
 
