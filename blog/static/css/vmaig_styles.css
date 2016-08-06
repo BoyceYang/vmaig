@@ -75,10 +75,7 @@ a:hover{
     line-height:30px;
 }
 
-#vmaig{
-    padding-top:50px;
-}
-
+/*_base*/
 #vmaig-main {
     position: relative;
     min-height:100%;
@@ -90,7 +87,28 @@ a:hover{
     padding-bottom: 30px;  /* 不至被footer盖住 */
 }
 
-#vmaig-main{
-    padding:30px 0px;
+/*_search*/
+.search{
+    padding:8px;
+    margin-bottom:30px;
+    border-radius:4px;
+    color: #FFF;
+    background-color: #222;
+    border-color: #EEE;
+    box-shadow: 0 0 5px #C2C2C2;
 }
+
+.search input{
+    width:80% !important;
+    float:left;
+    margin-right:5px;
+}
+
+/* 按钮样式 */
+.btn-vmaig{
+    color: #FFF;
+    background-color: #D9534F;
+    border-color: #D43F3A;
+}
+
 

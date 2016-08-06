@@ -20,11 +20,11 @@
     {% block css %} {% endblock %}
 </head>
 
-<body id="vmaig">
+<body id="vmaig" style="padding-top: 50px">
     <!-- 导航栏 -->
     {% include "./blog/include/_nav.html"%}
     <!-- 文章列表 与 侧边的东西 -->
-    <div id="vmaig-main">
+    <div id="vmaig-main" style="padding:30px 0;">
         <div id="vmaig-content" class="container">
             {%block main%} {% endblock %}
         </div>

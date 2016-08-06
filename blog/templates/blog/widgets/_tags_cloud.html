@@ -23,12 +23,11 @@
         return ~~(Math.random()*2)*90;
     }).font("Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol'").fontSize(function (d) {
         return d.size;
-    }).on("end", draw).start()
+    }).on("end", draw).start();
 
     function draw(words) {
         d3.select("#tags_cloud").append("svg").attr("width", 250).attr("height", 250).append("g").attr("transform", "translate(125,125)");
         for(var i=0; i<words.length; i++){
-            var str = words[i];
             d3.select("g").append("a").attr("xlink:href","/tag/"+words[i].text)
             .append("text").text(words[i].text) .style("font-size", words[i].size+"px")
             .style("font-family", "'Microsoft YaHei','WenQuanYi Micro Hei','tohoma,sans-serif'")
