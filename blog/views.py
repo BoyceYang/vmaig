@@ -4,7 +4,9 @@
 import logging
 
 from django.conf import settings
+from django.db.models import Q
 from django.core.cache import caches
+from django.http import Http404
 from django.views.generic import ListView, DetailView
 
 from .models import Article, Nav, Carousel
@@ -68,12 +70,37 @@ class IndexView(BaseMixin, ListView):
 
 class ArticleView(BaseMixin, DetailView):
 
-    queryset = Article.objects.filter()
+    queryset = Article.objects.filter(Q(status=0) | Q(status=1))
     template_name = 'blog/article.html'
     context_object_name = 'article'
     slug_field = 'en_title'
 
     def get(self, request, *args, **kwargs):
+        # 统计文章的访问访问次数
+        if 'HTTP_X_FORWARDED_FOR' in request.META:
+            ip = request.META['HTTP_X_FORWARDED_FOR']
+        else:
+            ip = request.META['REMOTE_ADDR']
+
+        en_title = self.kwargs.get('slug')
+        # 获取15*60s时间内访问过这篇文章的所有ip
+        visited_ips = cache.get(en_title, [])
+
+        # 如果ip不存在就把文章的浏览次数+1
+        if ip not in visited_ips:
+            try:
+                article = self.queryset.get(en_title=en_title)
+            except Article.DoesNotExist:
+                LOG.error(u'[ArticleView]访问不存在的文章:[%s]' % en_title)
+                raise Http404
+            else:
+                article.view_times += 1
+                article.save()
+                visited_ips.append(ip)
+
+            # 更新缓存
+            cache.set(en_title, visited_ips, 15 * 60)
+
         return super(ArticleView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

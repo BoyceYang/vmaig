@@ -295,4 +295,15 @@ a:hover{
     text-shadow: 2px 2px 2px #000, 0 0 10px #fff, 0 0 20px #fff;
 }
 
+/*article*/
+.article-content img{
+
+    max-width:100%;
+}
+
+.article-title h1{
+    font-size:20px
+
+}
+
 
