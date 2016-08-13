@@ -99,3 +99,99 @@ $(function(){
 
 
 });
+
+/*_all_posts js*/
+$("input[name='category']").click(function () {
+    var start = 0;
+    var end = 5;
+
+    $("input[name='category']").parent().removeClass("active");
+    $("#all-post-more")[0].style.display = "none";
+    $("#loading")[0].style.display = "block";
+
+    $("#all-post-list").empty();
+    $(this).parent().addClass("active");
+    $("#all-post-more").val($(this).val());
+
+    $.ajax({
+        type:"POST",
+        url:"/all/",
+        data:{"val":$(this).attr("value"),"sort":$("input[name='sort']:checked").val(),"start":start,"end":end},
+        beforeSend:function(xhr){
+            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+        },
+        success:function(data){
+            $("#loading")[0].style.display = "none";
+            $('#all-post-list').append(data["html"]);
+            if(data["isend"])
+            {
+                $("#all-post-more")[0].style.display = "none";
+            }else{
+                $("#all-post-more")[0].style.display = "block";
+            }
+        },
+        error:function(XMLHttpRequest){
+            alert(XMLHttpRequest.responseText);
+        }
+    });
+});
+
+$("input[name='sort']").click(function () {
+    var start = 0;
+    var end = 5;
+    $("#all-post-more")[0].style.display = "none";
+    $("#loading")[0].style.display = "block";
+
+    $("#all-post-list").empty();
+    $.ajax({
+        type:"POST",
+        url:"/all/",
+        data:{"val":$("label.active input").val(),"sort":$("input[name='sort']:checked").val(),"start":start,"end":end},
+        beforeSend:function(xhr){
+            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+        },
+        success:function(data){
+            $("#loading")[0].style.display = "none";
+            $('#all-post-list').append(data["html"]);
+            if(data["isend"])
+            {
+                $("#all-post-more")[0].style.display = "none";
+            }else{
+                $("#all-post-more")[0].style.display = "block";
+            }
+        },
+        error:function(XMLHttpRequest){
+            alert(XMLHttpRequest.responseText);
+        }
+    });
+});
+
+$("#all-post-more").click(function () {
+    var end = 5;
+    var start = end;
+    end += 5;
+    $("#loading")[0].style.display = "block";
+    $.ajax({
+        type:"POST",
+        url:"/all/",
+        data:{"val":$(this).attr("value"),"sort":$("input[name='sort']:checked").val(),"start":start,"end":end},
+        beforeSend:function(xhr){
+            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+        },
+        success:function(data){
+            $("#loading")[0].style.display = "none";
+            $("#all-post-more")[0].style.display = "none";
+            $('#all-post-list').append(data["html"]);
+
+            if(data["isend"])
+            {
+                $("#all-post-more")[0].style.display = "none";
+            }else{
+                $("#all-post-more")[0].style.display = "block";
+            }
+        },
+        error:function(XMLHttpRequest){
+            alert(XMLHttpRequest.responseText);
+        }
+    });
+});

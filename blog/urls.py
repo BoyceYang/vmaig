@@ -3,9 +3,11 @@
 
 from django.conf.urls import url
 
-from .views import IndexView, ArticleView
+from .views import IndexView, ArticleView, AllView
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index-view'),
     url(r'^article/(?P<slug>\w+).html$', ArticleView.as_view(), name='article-detail-view'),
+
+    url(r'^all/$', AllView.as_view(), name='all-view'),
 ]

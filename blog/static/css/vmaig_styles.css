@@ -306,4 +306,91 @@ a:hover{
 
 }
 
+/*all*/
+.tags{
+    margin-top:5px;
+}
+
+.tags label{
+    display: inline-block;
+    padding:1px 10px;
+    margin:0 3px 5px 0;
+    font-size:14px;
+    border-radius:2px;
+}
+
+.tags label:hover{
+    background: none repeat scroll 0 0 #EEE;
+}
+
+.tags label.active:hover{
+    background:#D94600;
+}
+
+.tags .active{
+    background:#D94600;
+    color:#FFF;
+}
+
+.sort {
+    padding-bottom:15px;
+    font-size:13px
+}
+
+.sort label{
+    margin-right:10px;
+}
+
+/*_all_posts*/
+.all-post{
+    margin-bottom:20px;
+}
+
+.all-post .post-title {
+    margin-bottom:10px;
+}
+
+.all-post .post-tags{
+    float:right;
+    margin-top:5px;
+}
+
+.all-post .post-title h1{
+    margin-top:0;
+    margin-bottom:0;
+    padding-top:3px;
+    font-size:20px;
+    height:30px;
+    line-height:30px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.all-post .post-title>.post-tags{
+    float:right;
+}
+
+.all-post .post-content .thumbnail{
+    border: 1px solid #ED9C29;
+    padding: 0;
+}
+
+.all-post .post-info {
+    float:right;
+    margin-top:-20px;
+}
+
+.all-post .post-content .row .col-sm-4 {
+    padding-right:5px;
+    padding-left:5px;
+}
+
+.all-post .post-content .row .col-sm-8 {
+    padding-right:5px;
+    padding-left:5px;
+}
+
+
+
 

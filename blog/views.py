@@ -1,15 +1,18 @@
 # !/usr/bin/python
 # -*-coding:utf-8-*-
 
+import json
 import logging
 
+from django import template
 from django.conf import settings
 from django.db.models import Q
 from django.core.cache import caches
-from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from django.http import Http404, HttpResponse
 from django.views.generic import ListView, DetailView
 
-from .models import Article, Nav, Carousel
+from .models import Article, Nav, Carousel, Category
 
 # Cache
 try:
@@ -105,3 +108,62 @@ class ArticleView(BaseMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         return super(ArticleView, self).get_context_data(**kwargs)
+
+
+class AllView(BaseMixin, ListView):
+    template_name = 'blog/all.html'
+    context_object_name = 'article_list'
+
+    def get_context_data(self, *args, **kwargs):
+        kwargs['category_list'] = Category.objects.all()
+        kwargs['PAGE_NUM'] = settings.PAGE_NUM
+        return super(AllView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        article_list = Article.objects.filter(status=0).order_by("-pub_time")[0:settings.PAGE_NUM]
+        return article_list
+
+    def post(self, request, *args, **kwargs):
+        val = self.request.POST.get("val", "")
+        sort = self.request.POST.get("sort", "time")
+        start = self.request.POST.get("start", 0)
+        end = self.request.POST.get("end", settings.PAGE_NUM)
+
+        start = int(start)
+        end = int(end)
+
+        if sort == 'time':
+            sort = '-pub_time'
+        elif sort == 'recommend':
+            sort = '-view_times'
+        else:
+            sort = '-pub_time'
+
+        if val == 'all':
+            article_list = \
+                Article.objects.filter(status=0).order_by(sort)[start:end + 1]
+        else:
+            try:
+                article_list = Category.objects.get(
+                    name=val
+                ).article_set.filter(
+                    status=0
+                ).order_by(sort)[start:end + 1]
+            except Category.DoesNotExist:
+                LOG.error(u'[AllView]此分类不存在:[%s]' % val)
+                raise PermissionDenied
+
+        is_end = len(article_list) != (end-start+1)
+        article_list = article_list[0:end - start]
+
+        html = ""
+        for article in article_list:
+            html += template.loader.get_template(
+                'blog/include/_all_posts.html'
+            ).render(template.Context({'post': article}))
+
+        my_dict = {"html": html, "isend": is_end}
+        return HttpResponse(
+            json.dumps(my_dict),
+            content_type="application/json"
+        )
