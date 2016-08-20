@@ -391,6 +391,138 @@ a:hover{
     padding-left:5px;
 }
 
+/* news */
+/*手机端控制弹出框宽度*/
+@media screen and (max-width: 400px){
+    .highslide-body{
+        width: 320px !important;
+    }
+    .highslide-html{
+        width: 320px !important;
+    }
+    .highslide-html-content{
+        width: 325px !important;
+    }
+    .highslide-html-blur{
+        width: 320px !important;
+    }
+}
+
+.highslide-header{
+    height: 30px !important;
+}
+
+.highslide-heading{
+    font-size:18px !important;
+
+    max-width: 90%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block!important;
+    overflow: hidden;
+}
+
+.timeline{
+    list-style: none;
+    position: relative;
+}
+
+.timeline:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: #D94600;
+    left: 10%;
+}
+
+.timeline li{
+    position: relative;
+}
+
+.timeline-time{
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.timeline-time>span:last-child {
+    font-size: 18px;
+    color: #FFFF00;
+    font-weight: bold;
+}
+
+.timeline-time div {
+    font-size:16px;
+}
+
+.timeline-time div span:first-child {
+    font-size: 18px;
+    color: #FFFF00;
+    font-weight: bold;
+}
+
+.timeline-ico {
+    width: 10px;
+    height: 10px;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    font-size: 1.4em;
+    line-height: 40px;
+    position: absolute;
+    color: #fff;
+    background: #eee;
+    border-radius: 50%;
+    box-shadow: 0 0 0 8px #D94600;
+    text-align: center;
+    left: 10%;
+    top: 0;
+    margin: 0 0 0 -38px;
+}
+
+.timeline-content {
+    margin: 0 0 15px 10%;
+    background-color: rgba(0,0,0,0.6);
+    padding:10px;
+}
+
+.label-news{
+    display:inline-block;
+    font-size:14px;
+    max-width:100%;
+    margin:3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.timeline-select {
+    position: fixed;
+    top:70px;
+    left:20px;
+}
+
+.label-oschina {
+    background-color: #5cb85c;
+}
+
+.label-chiphell {
+    background-color: #d9534f;
+}
+
+.label-cnBeta {
+    background-color: #337ab7;
+}
+
+.label-freebuf {
+    background-color: #f0ad4e;
+}
+
+
 
 
 

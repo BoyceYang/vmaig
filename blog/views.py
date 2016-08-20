@@ -3,6 +3,7 @@
 
 import json
 import logging
+import datetime
 
 from django import template
 from django.conf import settings
@@ -10,9 +11,9 @@ from django.db.models import Q
 from django.core.cache import caches
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 
-from .models import Article, Nav, Carousel, Category, Column
+from .models import Article, Nav, Carousel, Category, Column, News
 
 # Cache
 try:
@@ -245,3 +246,33 @@ class SearchView(BaseMixin, ListView):
             status=0
         )
         return article_list
+
+
+class NewsView(BaseMixin, TemplateView):
+    template_name = 'blog/news.html'
+
+    def get_context_data(self, *args, **kwargs):
+        timeblocks = []
+
+        # 获取开始和终止的日期
+        start_day = int(self.request.GET.get('start', '0'))
+        end_day = int(self.request.GET.get('end', '6'))
+
+        start_date = datetime.datetime.now()
+
+        # 获取url中时间段的资讯
+        for x in range(start_day, end_day+1):
+            date = start_date - datetime.timedelta(x)
+            news_list = News.objects.filter(
+                pub_time__year=date.year,
+                pub_time__month=date.month,
+                pub_time__day=date.day
+            )
+
+            if news_list:
+                timeblocks.append(news_list)
+
+        kwargs['timeblocks'] = timeblocks
+        kwargs['active'] = start_day/7
+
+        return super(NewsView, self).get_context_data(**kwargs)

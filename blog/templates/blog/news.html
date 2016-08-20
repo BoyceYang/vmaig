@@ -1,0 +1,65 @@
+{% extends "./blog/base.html" %}
+
+{% block main %}
+    <div class="timeline-content visible-xs">
+        <span>新闻来源:</span>
+        <span class="label label-success">oschina</span>
+        <span class="label label-danger">chiphell</span>
+        <span class="label label-primary">cnBeta</span>
+        <span class="label label-warning">freeBuf</span>
+        <span class="label label-default">其他</span>
+    </div>
+    <ul class="timeline">
+        {% for timeblock in timeblocks %}
+            <li>
+                <div class="timeline-time">
+                    {% if forloop.first %}
+                        <div class="pull-right hidden-xs">
+                            <span>新闻来源:</span>
+                            <span class="label label-success">oschina</span>
+                            <span class="label label-danger">chiphell</span>
+                            <span class="label label-primary">cnBeta</span>
+                            <span class="label label-warning">freeBuf</span>
+                            <span class="label label-default">其他</span>
+                        </div>
+                    {% endif %}
+
+                    <span>{{timeblock.0.pub_time|date:"D d M Y"}}</span>
+
+                </div>
+                <div class="timeline-ico"></div>
+                <div class="timeline-content">
+                    {% for news in timeblock %}
+                        <a class="label label-{{ news.get_news_from_display }} label-news" onclick="return hs.htmlExpand(this, { objectType: 'iframe' ,minWidth:600,headingText:'{{news.title}}'})" href="{% url 'news-detail-view' news.pk  %}">{{news.title}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="timeline-select hidden-xs">
+        <ul class="list-group">
+            <li class="list-group-item {% if active == 0 %}active{% endif %}"><a href="/news/?start=0&end=6">最近7天</a></li>
+            <li class="list-group-item {% if active == 1 %}active{% endif %}"><a href="/news/?start=7&end=13">前一周</a></li>
+            <li class="list-group-item {% if active == 2 %}active{% endif %}"><a href="/news/?start=14&end=20">前二周</a></li>
+            <li class="list-group-item {% if active == 3 %}active{% endif %}"><a href="/news/?start=21&end=27">前三周</a></li>
+            <li class="list-group-item {% if active == 4 %}active{% endif %}"><a href="/news/?start=28&end=34">前四周</a></li>
+            <li class="list-group-item {% if active == 5 %}active{% endif %}"><a href="/news/?start=35&end=41">前五周</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/highslide/highslide-with-html.min.js"></script>
+    <script language="javascript" type="text/javascript">
+        hs.graphicsDir = '/static/highslide/graphics/';
+        hs.outlineType = 'rounded-white';
+        hs.showCredits = false;
+        hs.wrapperClassName = 'draggable-header';
+        hs.marginTop = 70;
+    </script>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/highslide/highslide.css">
+{% endblock %}
