@@ -182,7 +182,7 @@ class ColumnView(BaseMixin, ListView):
         except Column.DoesNotExist:
             LOG.error(u'[ColumnView]访问专栏不存在: [%s]' % column)
             raise Http404
-        
+
         return super(ColumnView, self).get_context_data(**kwargs)
 
     def get_queryset(self):
@@ -194,3 +194,20 @@ class ColumnView(BaseMixin, ListView):
             raise Http404
 
         return article_list
+
+
+class CategoryView(BaseMixin, ListView):
+    template_name = "blog/category.html"
+    context_object_name = 'article_list'
+    paginate_by = settings.PAGE_NUM
+
+    def get_queryset(self):
+        category = self.kwargs.get('category', '')
+        try:
+            article_list = Category.objects.get(name=category).article_set.all()
+        except Category.DoesNotExist:
+            LOG.error(u'[CategoryView]此分类不存在:[%s]' % category)
+            raise Http404
+
+        return article_list
+
