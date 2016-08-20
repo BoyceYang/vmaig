@@ -222,3 +222,26 @@ class TagView(BaseMixin, ListView):
         article_list = Article.objects.only('tags').filter(tags__icontains=tag, status=0)
         return article_list
 
+
+class SearchView(BaseMixin, ListView):
+    template_name = 'blog/search.html'
+    context_object_name = 'article_list'
+    paginate_by = settings.PAGE_NUM
+
+    def get_context_data(self, *args, **kwargs):
+        kwargs['s'] = self.request.GET.get('s', '')
+        return super(SearchView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        # 获取搜索的关键字
+        s = self.request.GET.get('s', '')
+        # 在文章的标题,summary和tags中搜索关键字
+        article_list = Article.objects.only(
+            'title', 'summary', 'tags'
+        ).filter(
+            Q(title__icontains=s) |
+            Q(summary__icontains=s) |
+            Q(tags__icontains=s),
+            status=0
+        )
+        return article_list

@@ -3,7 +3,7 @@
 
 from django.conf.urls import url
 
-from .views import IndexView, ArticleView, AllView, ColumnView, CategoryView, TagView
+from .views import IndexView, ArticleView, AllView, ColumnView, CategoryView, TagView, SearchView
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index-view'),
@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^column/(?P<column>\w+)/$', ColumnView.as_view(), name='column-detail-view'),
     url(r'^category/(?P<category>\w+)/$', CategoryView.as_view(), name='category-detail-view'),
     url(r'^tag/(?P<tag>\w+)/$', TagView.as_view(), name='tag-detail-view'),
+    url(r'^search/$', SearchView.as_view()),
 ]
