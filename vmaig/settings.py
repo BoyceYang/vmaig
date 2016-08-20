@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'vauth',
+    'vsystem',
 ]
 
 MIDDLEWARE_CLASSES = [

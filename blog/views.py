@@ -13,6 +13,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
 
+from vsystem.models import Link
 from .models import Article, Nav, Carousel, Category, Column, News
 
 # Cache
@@ -41,12 +42,12 @@ class BaseMixin(object):
             # 最新评论
             # context['latest_comment_list'] = Comment.objects.order_by(u"-create_time")[0:10]
             # 友情链接
-            # context['links'] = Link.objects.order_by(u"create_time").all()
-            '''
+            context['links'] = Link.objects.order_by(u"create_time").all()
+
             colors = [u'primary', u'success', u'info', u'warning', u'danger']
             for index, link in enumerate(context['links']):
                 link.color = colors[index % len(colors)]
-            '''
+            
             # 用户未读消息数
             user = self.request.user
             if user.is_authenticated():
