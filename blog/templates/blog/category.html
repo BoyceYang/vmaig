@@ -7,7 +7,7 @@
                 {% if article_list %}
                     {% with post_list=article_list %}
                         {% for post in post_list %}
-                            {% include "./blog/include/_category_post.html" %}
+                            {% include "./blog/include/_category_posts.html" %}
                         {% endfor %}
                     {% endwith %}
                 {% endif %}

@@ -1,4 +1,4 @@
-
+{% url 'category-detail-view' post.category.name as category_url %}
 {% url 'article-detail-view' post.en_title as article_url %}
 
 <div class="home-post well clearfix">
@@ -27,7 +27,7 @@
             </span>
             <div class="post-tags">
                 {% for tag in post.get_tags%}
-                    <a href="#" class="{% if forloop.counter0 %}hidden-xs{% endif %} ">
+                    <a href="{% url 'tag-detail-view' tag %}" class="{% if forloop.counter0 %}hidden-xs{% endif %} ">
                         <span class="label label-vmaig-{{ forloop.counter }} btn">{{ tag }}</span>
                     </a>
                 {% endfor %}

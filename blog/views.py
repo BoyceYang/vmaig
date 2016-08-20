@@ -211,3 +211,14 @@ class CategoryView(BaseMixin, ListView):
 
         return article_list
 
+
+class TagView(BaseMixin, ListView):
+    template_name = 'blog/tag.html'
+    context_object_name = 'article_list'
+    paginate_by = settings.PAGE_NUM
+
+    def get_queryset(self):
+        tag = self.kwargs.get('tag', '')
+        article_list = Article.objects.only('tags').filter(tags__icontains=tag, status=0)
+        return article_list
+
