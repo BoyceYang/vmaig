@@ -2,6 +2,8 @@
 
 {% url 'index-view' as index_url %}
 {% url 'all-view' as all_url %}
+{% url 'news-view' as news_url %}
+{% url 'forgetpassword-view' as forgetpassword_url %}
 
 <header id="vmaig-header" class="navbar navbar-inverse navbar-fixed-top vmaig-navbar">
     <div class="container">
@@ -29,6 +31,12 @@
                         <span class="glyphicon glyphicon-globe"></span>
                         全部文章
                     </a>
+                </li>
+                <li>
+                <a href="{{ news_url }}">
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                    资讯
+                </a>
                 </li>
 
                 {% if nav_list %}

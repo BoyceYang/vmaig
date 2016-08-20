@@ -4,7 +4,7 @@
 from blog.models import News
 
 from django.conf.urls import url
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 
 from .views import IndexView, ArticleView, AllView, ColumnView, CategoryView, TagView, SearchView, NewsView
 
@@ -20,4 +20,8 @@ urlpatterns = [
     url(r'^news/$', NewsView.as_view(), name='news-view'),
     url(r'^news/(?P<pk>\w+)$',
         DetailView.as_view(model=News), name='news-detail-view'),
+
+    url(r'^forgetpassword/$', TemplateView.as_view(template_name="blog/forget_password.html")),
+    url(r'^resetpassword/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$',
+        TemplateView.as_view(template_name="blog/reset_password.html"), name='resetpassword-view'),
 ]

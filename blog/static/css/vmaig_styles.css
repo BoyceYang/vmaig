@@ -522,6 +522,62 @@ a:hover{
     background-color: #f0ad4e;
 }
 
+/* forget_password */
+#vmaig-auth-forgetpassword {
+    max-width: 500px;
+    margin: 20px auto 20px;
+}
+
+#vmaig-auth-forgetpassword .alert {
+    margin:15px;
+}
+
+#vmaig-auth-forgetpassword-form {
+    padding: 20px;
+}
+
+/* auth - panel */
+.panel-vmaig-auth{
+    box-shadow: 0 0 5px #C2C2C2;
+    border-color:#EEE;
+}
+
+.panel-vmaig-auth .panel-heading{
+    color: #EEE;
+    background-color: #222;
+    border-color: #EEE;
+}
+
+.panel-vmaig-auth .input-group-addon{
+    color: #EEE;
+    background-color: #3D4450;
+    border:2px solid #3D4450;
+}
+
+.panel-vmaig-auth .badge{
+    background-color:#D94600;
+}
+
+.panel-vmaig-auth span.btn{
+    padding:0;
+    margin-right:5px;
+}
+
+/* reset_password */
+#vmaig-auth-resetpassword {
+    max-width: 500px;
+    margin: 20px auto 20px;
+}
+
+#vmaig-auth-resetpassword .alert {
+    margin:15px;
+}
+
+#vmaig-auth-resetpassword-form {
+    padding: 20px;
+}
+
+
 
 
 

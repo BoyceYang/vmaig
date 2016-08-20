@@ -195,3 +195,76 @@ $("#all-post-more").click(function () {
         }
     });
 });
+
+$('#vmaig-auth-forgetpassword-form').submit(function () {
+    $.ajax({
+        type: "POST",
+        url: "/vauth/forgetpassword",
+        data: {"username": $("#vmaig-auth-forgetpassword-username").val(), "email":$("#vmaig-auth-forgetpassword-email").val()},
+        dataType: 'json',
+        beforeSend:function(xhr){
+            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+        },
+        success: function (data) {
+            var errors = data["errors"];
+            if (errors.length==0){
+                alert("密码重置成功!\n"+
+                      "我们将会把重置密码的连接发到你的邮箱中。 你很快将会收到.\n"+
+                      "如果你没有收到邮件, 请确保您所输入的地址是正确的, 并检查您的垃圾邮件文件夹.\n");
+                location.replace("/");
+            }else{
+                var html = "<div class=\"alert alert-danger\">";
+                for (var key in errors){
+                    html += errors[key]+"<br/>";
+                }
+                html += "</div>";
+                $("#vmaig-auth-forgetpassword .panel-heading").after(html);
+            }
+        },
+        error: function (XMLHttpRequest) {
+            alert(XMLHttpRequest.responseText);
+        }
+    });
+    return false;
+});
+
+$("#vmaig-auth-forgetpassword-button").click(function(){
+    $("#vmaig-auth-forgetpassword .alert").remove();
+});
+
+
+$('#vmaig-auth-resetpassword-form').submit(function(){
+    $.ajax({
+        type:"POST",
+        url:"/vauth/resetpassword",
+        data:{"uidb64":"{{uidb64}}","token":"{{token}}","new_password1":$("#vmaig-auth-resetpassword-password1").val(),"new_password2":$("#vmaig-auth-resetpassword-password2").val(),},
+        dataType:'json',
+        beforeSend:function(xhr){
+            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+        },
+        success:function(data){
+            var errors = data["errors"];
+            if(errors.length==0){
+                alert("密码设置成功!\n");
+                location.replace("/login");
+            }
+            else{
+                var html = "<div class=\"alert alert-danger\">";
+                for (var key in errors){
+                    html += errors[key]+"<br/>";
+                }
+                html += "</div>";
+                $("#vmaig-auth-resetpassword .panel-heading").after(html);
+            }
+
+        },
+        error:function(XMLHttpRequest){
+            alert(XMLHttpRequest.responseText);
+        }
+    });
+    return false;
+});
+
+$("#vmaig-auth-resetpassword-button").click(function(){
+    $("#vmaig-auth-resetpassword .alert").remove();
+});

@@ -10,8 +10,9 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.tokens import default_token_generator
 
-from .forms import VmaigUserCreationForm
+from .forms import VmaigUserCreationForm, VmaigPasswordRestForm
 
 LOG = logging.getLogger(__name__)
 
@@ -98,6 +99,34 @@ class VauthControl(View):
                 # v.as_text() 详见django.forms.util.ErrorList 中
                 errors.append(v.as_text())
 
+        my_dict = {"errors": errors}
+        return HttpResponse(
+            json.dumps(my_dict),
+            content_type="application/json"
+        )
+
+    def _forget_password(self):
+        username = self.request.POST.get("username", "")
+        email = self.request.POST.get("email", "")
+
+        form = VmaigPasswordRestForm(self.request.POST)
+        errors = []
+
+        # 验证表单是否正确
+        if form.is_valid():
+            token_generator = default_token_generator
+            from_email = None
+            opts = {
+                'token_generator': token_generator,
+                'from_email': from_email,
+                'request': self.request,
+            }
+            user = form.save(**opts)
+        else:
+            # 如果表单不正确,保存错误到errors列表中
+            for k, v in form.errors.items():
+                # v.as_text() 详见django.forms.util.ErrorList 中
+                errors.append(v.as_text())
         my_dict = {"errors": errors}
         return HttpResponse(
             json.dumps(my_dict),
