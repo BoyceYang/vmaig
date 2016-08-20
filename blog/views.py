@@ -12,7 +12,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse
 from django.views.generic import ListView, DetailView
 
-from .models import Article, Nav, Carousel, Category
+from .models import Article, Nav, Carousel, Category, Column
 
 # Cache
 try:
@@ -167,3 +167,30 @@ class AllView(BaseMixin, ListView):
             json.dumps(my_dict),
             content_type="application/json"
         )
+
+
+class ColumnView(BaseMixin, ListView):
+    queryset = Column.objects.all()
+    template_name = 'blog/column.html'
+    context_object_name = 'article_list'
+    paginate_by = settings.PAGE_NUM
+
+    def get_context_data(self, *args, **kwargs):
+        column = self.kwargs.get('column', '')
+        try:
+            kwargs['column'] = Column.objects.get(name=column)
+        except Column.DoesNotExist:
+            LOG.error(u'[ColumnView]访问专栏不存在: [%s]' % column)
+            raise Http404
+        
+        return super(ColumnView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        column = self.kwargs.get('column', '')
+        try:
+            article_list = Column.objects.get(name=column).article.all()
+        except Column.DoesNotExist:
+            LOG.error(u'[ColumnView]访问专栏不存在: [%s]' % column)
+            raise Http404
+
+        return article_list
