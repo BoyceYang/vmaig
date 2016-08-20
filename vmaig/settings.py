@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'blog',
     'vauth',
     'vsystem',
+    'vcomments',
 ]
 
 MIDDLEWARE_CLASSES = [

@@ -17,4 +17,5 @@ class VmaigUser(AbstractUser):
                              verbose_name=u'简介')
 
     class Meta(AbstractUser.Meta):
+        verbose_name_plural = verbose_name = u'用户'
         app_label = StringOfTitle('vauth', u"用户管理")
